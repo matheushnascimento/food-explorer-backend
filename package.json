@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/server.js"
+    "dev": "nodemon ./src/server.js",
+    "migrate:make": "knex migrate:make",
+    "migrate": "knex migrate:up"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
-    "knex": "^3.1.0"
+    "knex": "^3.1.0",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
