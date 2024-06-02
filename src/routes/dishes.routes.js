@@ -11,6 +11,11 @@ dishesRoutes.use(ensureAuthenticated);
 
 dishesRoutes.get("/", dishesController.show);
 dishesRoutes.get("/:id", dishesController.index);
+dishesRoutes.delete(
+  "/:id",
+  verifyUserAuthorization(["admin"]),
+  dishesController.delete
+);
 dishesRoutes.post(
   "/",
   verifyUserAuthorization(["admin"]),

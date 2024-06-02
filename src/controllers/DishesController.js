@@ -3,6 +3,7 @@ const DishCreateService = require("../services/dishes/DishCreateService");
 const DishIndexService = require("../services/dishes/DishIndexService");
 const DishUpdateService = require("../services/dishes/DishUpdateService");
 const DishShowService = require("../services/dishes/DishShowService");
+const DishDeleteService = require("../services/dishes/DishDeleteService");
 
 class DishesController {
   async show(req, res) {
@@ -34,6 +35,14 @@ class DishesController {
     const dishesRepository = new DishesRepository();
     const dishUpdateService = new DishUpdateService(dishesRepository);
     await dishUpdateService.execute({ id, ...records });
+
+    return res.status(200).json();
+  }
+  async delete(req, res) {
+    const { id } = req.params;
+    const dishesRepository = new DishesRepository();
+    const dishDeleteService = new DishDeleteService(dishesRepository);
+    await dishDeleteService.execute(id);
 
     return res.status(200).json();
   }

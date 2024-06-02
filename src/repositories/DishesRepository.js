@@ -54,5 +54,9 @@ class DishesRepository {
     const ingredients = await knex("ingredients");
     return ingredients;
   }
+
+  async delete(id) {
+    await knex("dishes").where({ id }).delete();
+  }
 }
 module.exports = DishesRepository;
