@@ -1,5 +1,6 @@
 const DishesRepository = require("../repositories/DishesRepository");
 const DishCreateService = require("../services/dishes/DishCreateService");
+const DishIndexService = require("../services/dishes/DishIndexService");
 const DishUpdateService = require("../services/dishes/DishUpdateService");
 
 class DishesController {
@@ -9,8 +10,8 @@ class DishesController {
   async index(req, res) {
     const { id } = req.params;
     const dishesRepository = new DishesRepository();
-    const dishUpdateService = new DishUpdateService(dishesRepository);
-    const dish = await dishUpdateService.execute(id);
+    const dishIndexService = new DishIndexService(dishesRepository);
+    const dish = await dishIndexService.execute(id);
 
     return res.status(200).json(dish);
   }
@@ -23,6 +24,12 @@ class DishesController {
     return res.status(201).json();
   }
   async update(req, res) {
+    const { id } = req.params;
+    const records = req.body;
+    const dishesRepository = new DishesRepository();
+    const dishUpdateService = new DishUpdateService(dishesRepository);
+    await dishUpdateService.execute({ id, ...records });
+
     return res.status(200).json();
   }
 }
