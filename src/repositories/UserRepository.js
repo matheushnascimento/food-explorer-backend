@@ -6,10 +6,8 @@ class UserRepository {
 
     return user;
   }
-  async create({ name, email, password }) {
-    const userId = await knex("users").insert({ name, email, password });
-
-    return { id: userId };
+  async create({ name, email, password, role }) {
+    const user = await knex("users").insert({ name, email, password, role });
   }
 }
 

@@ -3,8 +3,8 @@ class DishCreateService {
     this.dishRepository = dishRepository;
   }
 
-  async execute(dishRecords) {
-    await this.dishRepository.create(dishRecords);
+  async execute(requestBody) {
+    await this.dishRepository.create(requestBody);
   }
 }
 module.exports = DishCreateService;

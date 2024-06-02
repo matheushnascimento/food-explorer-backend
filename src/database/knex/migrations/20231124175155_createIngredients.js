@@ -3,10 +3,9 @@ exports.up = knex =>
     table.increments("id");
     table.text("name").notNullLabel;
     table
-      .integer("note_id")
+      .integer("dish_id")
       .references("id")
-      .inTable("notes")
+      .inTable("dishes")
       .onDelete("CASCADE");
-    table.integer("user_id").references("id").inTable("users");
   });
-exports.down = knex => knex.schema.dropTable("ingredients", table);
+exports.down = knex => knex.schema.dropTable("ingredients");

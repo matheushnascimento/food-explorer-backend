@@ -8,9 +8,9 @@ class DishesController {
   async show(req, res) {
     const dishesRepository = new DishesRepository();
     const dishShowService = new DishShowService(dishesRepository);
-    const dishes = await dishShowService.execute();
+    const requestQuery = await dishShowService.execute(req.query);
 
-    return res.status(200).json(dishes);
+    return res.status(200).json(requestQuery);
   }
   async index(req, res) {
     const { id } = req.params;
@@ -21,10 +21,10 @@ class DishesController {
     return res.status(200).json(dish);
   }
   async create(req, res) {
-    const records = req.body;
+    const requestBody = req.body;
     const dishesRepository = new DishesRepository();
     const dishCreateService = new DishCreateService(dishesRepository);
-    await dishCreateService.execute(records);
+    await dishCreateService.execute(requestBody);
 
     return res.status(201).json();
   }

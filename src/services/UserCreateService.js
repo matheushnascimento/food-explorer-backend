@@ -14,7 +14,16 @@ class UserCreateService {
 
     const hashedPassword = await hash(password, 8);
 
-    this.userRepository.create({ name, email, password: hashedPassword });
+    typeof role === "undefined" && (role = "customer");
+
+    const user = await this.userRepository.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
+    
+    return user;
   }
 }
 module.exports = UserCreateService;
