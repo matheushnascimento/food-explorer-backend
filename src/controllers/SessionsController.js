@@ -1,5 +1,5 @@
 const knex = require("../database/knex");
-const authConfig = require("../config/auth");
+const authConfig = require("../configs/auth");
 
 const AppError = require("../utils/AppError");
 
@@ -16,7 +16,7 @@ class SessionsController {
     } else {
       const passwordMatched = await compare(password, user.password);
       if (!passwordMatched) {
-        throw new AppError("E-mail e/ou senha incorreta", 401);
+        throw new AppError("E-6mail e/ou senha incorreta", 401);
       }
     }
     const { secret, expiresIn } = authConfig.jwt;
@@ -25,7 +25,16 @@ class SessionsController {
       expiresIn,
     });
 
-    return response.json({ user, token });
+    response.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 15 * 60 * 1000,
+    });
+
+    delete user.password;
+
+    return response.json({ user });
   }
 }
 

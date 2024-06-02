@@ -16,7 +16,6 @@ class DishesRepository {
 
   async fetchDishes() {
     const dishes = await knex("dishes").select();
-    console.log(dishes);
     return dishes;
   }
 }
