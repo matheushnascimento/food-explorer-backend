@@ -13,5 +13,11 @@ class DishesRepository {
     const { id } = record;
     await knex("dishes").update(record).where({ id });
   }
+
+  async fetchDishes() {
+    const dishes = await knex("dishes").select();
+    console.log(dishes);
+    return dishes;
+  }
 }
 module.exports = DishesRepository;

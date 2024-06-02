@@ -2,10 +2,15 @@ const DishesRepository = require("../repositories/DishesRepository");
 const DishCreateService = require("../services/dishes/DishCreateService");
 const DishIndexService = require("../services/dishes/DishIndexService");
 const DishUpdateService = require("../services/dishes/DishUpdateService");
+const DishShowService = require("../services/dishes/DishShowService");
 
 class DishesController {
   async show(req, res) {
-    return res.status(200).json();
+    const dishesRepository = new DishesRepository();
+    const dishShowService = new DishShowService(dishesRepository);
+    const dishes = await dishShowService.execute();
+
+    return res.status(200).json(dishes);
   }
   async index(req, res) {
     const { id } = req.params;
