@@ -3,7 +3,7 @@ class DishShowService {
     this.dishRepository = dishRepository;
   }
   async execute(requestQuery) {
-    const { ingredients, dish_id } = requestQuery;
+    const { ingredients } = requestQuery;
 
     let dishes;
 
@@ -17,7 +17,6 @@ class DishShowService {
       );
 
       const dishesIngredient = await this.dishRepository.fetchIngredients();
-      console.log(dishesIngredient);
       const dishesWithIngredient = dishes.map(dish => {
         const dishIngredients = dishesIngredient.filter(
           ingredient => ingredient.dish_id === dish.id
