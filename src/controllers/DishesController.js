@@ -4,10 +4,16 @@ const DishCreateService = require("../services/dishes/DishCreateService");
 const DishUpdateService = require("../services/dishes/DishUpdateService");
 const DishDeleteService = require("../services/dishes/DishDeleteService");
 const DishIndexService = require("../services/dishes/DishIndexService.js");
+const DishShowService = require("../services/dishes/DishShowService");
 
 class DishesController {
   async show(req, res) {
-    return res.status(200).json(dishes);
+    const { id } = req.params;
+    const dishesRepository = new DishesRepository();
+    const dishShowService = new DishShowService(dishesRepository);
+
+    const dish = await dishShowService.execute(id);
+    return res.status(200).json(dish);
   }
   async index(req, res) {
     const dishesRepository = new DishesRepository();

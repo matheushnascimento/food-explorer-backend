@@ -63,8 +63,10 @@ class DishesRepository {
     return dishes;
   }
 
-  async fetchIngredients(id) {
-    const ingredients = await knex("ingredients").where({ dish_id: id });
+  async fetchIngredientsById(dish_id) {
+    const ingredients = await knex("ingredients")
+      .where({ dish_id })
+      .orderBy("name");
     return ingredients;
   }
 
