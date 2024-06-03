@@ -33,7 +33,6 @@ class SessionsController {
     });
 
     delete user.password;
-
     return response.json({ user });
   }
 }

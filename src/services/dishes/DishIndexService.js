@@ -3,10 +3,9 @@ class DishIndexService {
     this.dishRepository = dishRepository;
   }
 
-  async execute(id) {
-    const dish = await this.dishRepository.findById(id);
-    return dish;
+  async execute() {
+    const dishes = await this.dishRepository.fetchDishes();
+    return dishes;
   }
 }
-
 module.exports = DishIndexService;

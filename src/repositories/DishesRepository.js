@@ -9,15 +9,15 @@ class DishesRepository {
       price,
       description,
     });
-
-    const ingredientsInsert = ingredients.map(ingredient => {
-      return {
-        dish_id,
-        name: ingredient,
-      };
-    });
-
-    await knex("ingredients").insert(ingredientsInsert);
+    if (ingredients) {
+      const ingredientsInsert = ingredients.map(ingredient => {
+        return {
+          dish_id,
+          name: ingredient,
+        };
+      });
+      await knex("ingredients").insert(ingredientsInsert);
+    }
   }
 
   async findById(id) {
@@ -27,7 +27,20 @@ class DishesRepository {
 
   async update(record) {
     const { id } = record;
-    await knex("dishes").update(record).where({ id });
+    const { name, description, price, category, ingredients } = record;
+    if (ingredients) {
+      const { ingredients } = record;
+      const ingredientsInsert = ingredients.map(ingredient => {
+        return {
+          name: ingredient,
+        };
+      });
+      await knex("ingredients").delete().where({ dish_id: id });
+      await knex("ingredients").insert(ingredientsInsert);
+    }
+    await knex("dishes")
+      .update({ name, description, price, category })
+      .where({ id });
   }
 
   async fetchDishes() {
@@ -50,8 +63,8 @@ class DishesRepository {
     return dishes;
   }
 
-  async fetchIngredients() {
-    const ingredients = await knex("ingredients");
+  async fetchIngredients(id) {
+    const ingredients = await knex("ingredients").where({ dish_id: id });
     return ingredients;
   }
 
