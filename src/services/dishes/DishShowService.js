@@ -1,4 +1,4 @@
-const AppError = require("../../database/knex");
+const AppError = require("../../utils/AppError");
 
 class DishShowService {
   constructor(dishRepository) {
@@ -13,7 +13,6 @@ class DishShowService {
     }
 
     const ingredients = await this.dishRepository.fetchIngredientsById(id);
-
     return { ...dish, ingredients };
   }
 }
