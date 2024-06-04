@@ -35,6 +35,12 @@ class SessionsController {
     delete user.password;
     return response.json({ user });
   }
+
+  async delete(request, response) {
+    response.cookie("token", "");
+
+    response.status(200).json();
+  }
 }
 
 module.exports = SessionsController;
