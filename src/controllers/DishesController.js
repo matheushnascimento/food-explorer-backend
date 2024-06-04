@@ -16,10 +16,11 @@ class DishesController {
     return res.status(200).json(dish);
   }
   async index(req, res) {
+    const { search } = req.query;
     const dishesRepository = new DishesRepository();
     const dishIndexService = new DishIndexService(dishesRepository);
 
-    const dishes = await dishIndexService.execute();
+    const dishes = await dishIndexService.execute(search);
     return res.status(200).json(dishes);
   }
   async create(req, res) {

@@ -48,15 +48,17 @@ class DishesRepository {
     return dishes;
   }
 
-  async fetchDishesWithIngredients(filterIngredients) {
+  async fetchDishesBySearch(search) {
     const dishes = await knex("dishes")
       .select([
         "dishes.id",
+        "dishes.category",
         "dishes.name",
         "dishes.description",
         "dishes.price",
       ])
-      .whereIn("ingredients.name", filterIngredients)
+      .whereLike("dishes.name", `%${search}%`)
+      .orWhereLike("ingredients.name", `%${search}%`)
       .innerJoin("ingredients", "ingredients.dish_id", "dishes.id")
       .orderBy("dishes.name")
       .groupBy(["dishes.id"]);

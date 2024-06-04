@@ -3,9 +3,15 @@ class DishIndexService {
     this.dishRepository = dishRepository;
   }
 
-  async execute() {
-    const dishes = await this.dishRepository.fetchDishes();
-    return dishes;
+  async execute(search) {
+    let dish;
+    if (search) {
+      dish = await this.dishRepository.fetchDishesBySearch(search);
+    } else {
+      dish = await this.dishRepository.fetchDishes();
+    }
+    console.log(dish);
+    return dish;
   }
 }
 module.exports = DishIndexService;
