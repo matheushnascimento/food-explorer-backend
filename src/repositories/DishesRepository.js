@@ -1,14 +1,16 @@
 const knex = require("../database/knex");
 class DishesRepository {
   async create(dishRecords) {
-    const { name, category, price, description, ingredients } = dishRecords;
-
+    const { name, category, price, description, ingredients, imageName } =
+      dishRecords;
     const [dish_id] = await knex("dishes").insert({
       name,
       category,
       price,
       description,
+      image: imageName,
     });
+
     if (ingredients) {
       const ingredientsInsert = ingredients.map(ingredient => {
         return {
@@ -19,35 +21,39 @@ class DishesRepository {
       await knex("ingredients").insert(ingredientsInsert);
     }
   }
-
-  async findById(id) {
-    const dish = await knex("dishes").where({ id }).first();
-    return dish;
-  }
-
   async update(record) {
     const { id } = record;
-    const { name, description, price, category, ingredients } = record;
+    const { name, category, price, description, ingredients, imageName } =
+      record;
+    await knex("dishes").where({ id }).update({
+      name,
+      category,
+      price,
+      description,
+      image: imageName,
+    });
+
     if (ingredients) {
-      const { ingredients } = record;
       const ingredientsInsert = ingredients.map(ingredient => {
         return {
           name: ingredient,
         };
       });
       await knex("ingredients").delete().where({ dish_id: id });
-      await knex("ingredients").insert(ingredientsInsert);
+      await knex("ingredients")
+        .insert(ingredientsInsert)
+        .where({ dish_id: id });
     }
-    await knex("dishes")
-      .update({ name, description, price, category })
-      .where({ id });
+  }
+  async findById(id) {
+    const dish = await knex("dishes").where({ id }).first();
+    return dish;
   }
 
   async fetchDishes() {
     const dishes = await knex("dishes");
     return dishes;
   }
-
   async fetchDishesBySearch(search) {
     const dishes = await knex("dishes")
       .select([
@@ -64,12 +70,10 @@ class DishesRepository {
       .groupBy(["dishes.id"]);
     return dishes;
   }
-
   async fetchIngredientsById(dish_id) {
     const ingredients = await knex("ingredients").where({ dish_id });
     return ingredients;
   }
-
   async delete(id) {
     await knex("dishes").where({ id }).delete();
   }

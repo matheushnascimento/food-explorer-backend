@@ -10,7 +10,6 @@ class DishIndexService {
     } else {
       dish = await this.dishRepository.fetchDishes();
     }
-    console.log(dish);
     return dish;
   }
 }

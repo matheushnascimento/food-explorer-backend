@@ -24,19 +24,17 @@ class DishesController {
     return res.status(200).json(dishes);
   }
   async create(req, res) {
-    const requestBody = req.body;
+    console.log(req.body);
     const dishesRepository = new DishesRepository();
     const dishCreateService = new DishCreateService(dishesRepository);
-    await dishCreateService.execute(requestBody);
+    await dishCreateService.execute(req);
 
     return res.status(201).json();
   }
   async update(req, res) {
-    const { id } = req.params;
-    const records = req.body;
     const dishesRepository = new DishesRepository();
     const dishUpdateService = new DishUpdateService(dishesRepository);
-    await dishUpdateService.execute({ id, ...records });
+    await dishUpdateService.execute(req);
 
     return res.status(200).json();
   }

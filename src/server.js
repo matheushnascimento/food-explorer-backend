@@ -3,8 +3,8 @@ require("dotenv/config");
 
 const express = require("express");
 const routes = require("./routes");
-const AppError = require("./utils/AppError");
 const uploadConfig = require("./configs/upload");
+const AppError = require("./utils/AppError");
 
 const cors = require("cors");
 const app = express();
@@ -14,13 +14,11 @@ const corsOptions = {
   credentials: true,
   optionSuccessStatus: 200,
 };
-app.use(cors(corsOptions));
 
 app.use(express.json());
-
-app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
-
+app.use(cors(corsOptions));
 app.use(routes);
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 
 app.use((error, request, response, next) => {
   if (error instanceof AppError) {

@@ -9,7 +9,7 @@ exports.up = knex =>
       })
       .notNullable()
       .default("refeicao");
-    table.text("avatar").nullable;
+    table.text("image").nullable;
     table.decimal("price");
     table.text("description").nullable;
 
